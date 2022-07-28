@@ -1,0 +1,5 @@
+# execute explicit debug
+# see https://stackoverflow.com/questions/2826029/passing-additional-variables-from-command-line-to-make
+
+action:
+	echo argument is $(debug)

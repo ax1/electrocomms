@@ -1,5 +1,5 @@
 ################################################################
-# Changes from original pqclean: 
+# Changes from original pqclean:
 # - headers: ../common/randombytes.h ../common/fips202.h
 # - objects: ../common/randombytes.o ../common/fips202.o
 ################################################################
