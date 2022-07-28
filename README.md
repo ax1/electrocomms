@@ -4,13 +4,18 @@ Provide Quantum resistant communications without changing existing stacks.
 
 This is part of the *STRONGBOX* component, into the WP4, in the [ELECTRON (UE funding) project](https://electron-project.eu/). 
 
+## Usage
+
+Developers: Download source code and build first libraries, then project, using `make` on each folders.
+Users: use a pre-compiled binary from /dist folder.
+
 ## Selection of the PQ alternatives
 
-There are many approaches to Post-Quantum (PQ) communications. Each ot fhem has advantages but also important drawbacks.
+There are many approaches to Post-Quantum (PQ) communications. Each one of them has advantages but also important drawbacks.
 
 |Approach|Advantages|Disadvantages|
 |---|---|---|
-|Openssl fork with PQ|Versatility, PQ certificates instead of keys | No ROOT CA to sign certificate, slower than other options| not all chip architectures|not suitable for embeddin|
+|Openssl fork with PQ|Versatility, PQ certificates instead of keys | No ROOT CA to sign certificate, slower than other options| not all chip architectures|not suitable for embedded|
 |Nginx fork with PQ|Server ready to use|Client must be also a PQ (new client or change the client stack)|
 |Pre shared Key (PSK) into TLS|Use only the external PQ for shared key. TLS1.3 already allow this|Existing programs may not have PSK as public method in code, so external implementation is still required|
 |Using Qdefender lib|Faster to develop|Qdefender license is Tecnalia proprietary for now|
