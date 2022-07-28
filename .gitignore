@@ -1,3 +1,7 @@
 backup
 bin
 a.out
+*.o
+*.a
+*.so
+
