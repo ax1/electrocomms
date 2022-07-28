@@ -1,8 +1,8 @@
-# ------------------------------------------------------------
+# ----------------------------------------------------------------------
 # Usage:
-#		1. Use Makefile in the algorithm to clean and generate lib.
+#		1. Use Makefile in the algorithm folders to clean and generate libs.
 #   2. Then, execute this Makefile.
-# ------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 NAME=main
 RELEASE=-O3
@@ -19,6 +19,9 @@ release:
 
 debug:
 	$(CC) $(DEBUG) $(CFLAGS) $(NAME).c -L$(KEM) -l$(KEM)_clean -o ../bin/$(NAME)
+
+test:
+	$(CC) $(RELEASE) $(CFLAGS)  test.c -L$(KEM) -l$(KEM)_clean -o ../bin/test
 
 clean:
 	$(RM) ./kyber1024/*.o

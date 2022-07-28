@@ -1,18 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "electrocomms.h"
 #include "kyber1024/api.h"
 
 // int main(int argc, char const *argv[]) {
-int main() {
-  uint8_t pk[KEM_PKL];
-  uint8_t sk[KEM_SKL];
-  int status = KEM_GENKEYS(pk, sk);
-  log8("pk: ", pk, KEM_PKL);
-  printf("status=%d\n", status);
-  return status;
-}
+int main() {}
 
 void log8(char *text, uint8_t *data, size_t len) {
   // size_t LIMIT = len;

@@ -8,6 +8,9 @@
 #ifndef ELECTROCOMMS_H
 #define ELECTROCOMMS_H
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "kyber1024/api.h"
 
@@ -22,11 +25,11 @@ inline int KEM_GENKEYS(uint8_t *pk, uint8_t *sk) {
   return PQCLEAN_KYBER1024_CLEAN_crypto_kem_keypair(pk, sk);
 }
 
-inline int KEM_ENC(const uint8_t *pk, uint8_t *ss, uint8_t *ct) {
+inline int KEM_ENCAPSULATE(const uint8_t *pk, uint8_t *ss, uint8_t *ct) {
   return PQCLEAN_KYBER1024_CLEAN_crypto_kem_enc(ct, ss, pk);
 }
 
-inline int KEM_DEC(const uint8_t *sk, const uint8_t *ct, uint8_t *ss) {
+inline int KEM_DECAPSULATE(const uint8_t *sk, const uint8_t *ct, uint8_t *ss) {
   return PQCLEAN_KYBER1024_CLEAN_crypto_kem_dec(ss, ct, sk);
 }
 
