@@ -1,4 +1,5 @@
 #include <netinet/in.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +10,8 @@
 #define PORT 8080
 #define SA struct sockaddr
 
-static void handler(int connfd) {
+static void* handler(void* args) {
+  int connfd = *(int*)args;
   char buff[MAX];
   char* response = "ACK\n";
   for (;;) {
@@ -80,7 +82,9 @@ int main() {
       exit(0);
     } else
       printf("server accept the client...\n");
-    handler(connfd);
+    pthread_t thread;
+    int id = connfd;
+    pthread_create(&thread, NULL, handler, (void*)&id);
   }
 
   close(sockfd);
