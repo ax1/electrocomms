@@ -35,6 +35,7 @@ static void* handler(void* args) {
     }
     printf("(write bytes %li)\n", len);
   }
+  return NULL;
 }
 
 int main() {
