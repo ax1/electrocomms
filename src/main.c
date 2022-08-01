@@ -11,8 +11,8 @@ int main(int argc, char const *argv[]) {
     printf(help);
   } else {
     const char *mode = argv[1];
-    if (strcmp(mode, "client") == 0) exit(1);
-    // socket_client();
+    if (strcmp(mode, "client") == 0)
+      socket_client();
     else if (strcmp(mode, "server") == 0)
       socket_server();
     else {

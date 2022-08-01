@@ -31,7 +31,6 @@ static void handler(int sockfd) {
     }
     printf("From Server : %s", buff);
   }
-  return NULL;
 }
 
 int main() {
