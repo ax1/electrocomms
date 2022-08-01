@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include "kyber1024/api.h"
+#include "sockets.h"
 
 #define KEM_SKL PQCLEAN_KYBER1024_CLEAN_CRYPTO_SECRETKEYBYTES
 #define KEM_PKL PQCLEAN_KYBER1024_CLEAN_CRYPTO_PUBLICKEYBYTES
