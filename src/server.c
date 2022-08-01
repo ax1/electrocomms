@@ -1,6 +1,5 @@
-#include "sockets.h"
+#include "server.h"
 
-#include <arpa/inet.h>
 #include <netinet/in.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -40,6 +39,8 @@ static void* handler_server(void* args) {
   }
   return NULL;
 }
+
+void load_keys(uint8_t* pk, uint8_t* sk) {}
 
 void socket_server() {
   int sockfd, connfd;

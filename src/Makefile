@@ -10,7 +10,7 @@ DEBUG=-g3
 INCLUDES= -I. -I$(KEM)
 CFLAGS=-Wall -Wextra -Wpedantic -Wmissing-prototypes -Wredundant-decls -std=c99 $(INCLUDES) $(EXTRAFLAGS)
 KEM=kyber1024
-SOURCES=sockets.c 
+SOURCES=server.c client.c 
 
 
 .PHONY: release debug clean

@@ -1,4 +1,6 @@
+#include "client.h"
 #include "electrocomms.h"
+#include "server.h"
 
 const char help[] =
     "Exchange quantum-resistant safe data.\n\n\
