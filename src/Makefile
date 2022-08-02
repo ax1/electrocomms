@@ -7,7 +7,7 @@
 NAME=main
 RELEASE=-O3
 DEBUG=-g3
-INCLUDES= -I. -I$(KEM)
+INCLUDES=-I. -I$(KEM)
 CFLAGS=-Wall -Wextra -Wpedantic -Wmissing-prototypes -Wredundant-decls -std=c99 $(INCLUDES) $(EXTRAFLAGS)
 KEM=kyber1024
 SOURCES=server.c client.c util.c

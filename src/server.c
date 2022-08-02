@@ -72,18 +72,21 @@ static int generate_keys(uint8_t* pk, size_t pkl, uint8_t* sk, size_t skl) {
   fwrite(p1, 1, strlen(p1), pkf);
   fwrite(str, 1, len, pkf);
   fwrite(p2, 1, strlen(p2), pkf);
+  fclose(pkf);
 
   str = base64_encode(sk, skl, &len);
   skf = fopen("private.pem", "w");
   fwrite(s1, 1, strlen(s1), skf);
   fwrite(str, 1, len, skf);
   fwrite(s2, 1, strlen(s2), skf);
-
-  fclose(pkf);
   fclose(skf);
+
   return status;
 }
 
+/**
+ * Load a .pem file containing a key into an array
+ */
 static int load_key(const char* path, uint8_t* key, size_t keyl) {
   FILE* file;
   file = fopen(path, "r");
@@ -92,9 +95,11 @@ static int load_key(const char* path, uint8_t* key, size_t keyl) {
     return 404;
   }
   char c;
-  // while ((c = fgetc(file)) != '\n') {
-  //   ;
-  // }  // skip header
+
+  // Skip first line
+  while ((c = fgetc(file)) != '\n') {
+    ;
+  }
 
   int KEY_LEN = 0;
   char str[10000];
@@ -103,6 +108,7 @@ static int load_key(const char* path, uint8_t* key, size_t keyl) {
     KEY_LEN++;
   }
   fclose(file);
+
   str[KEY_LEN] = '\0';
   size_t bufl = 0;
   uint8_t* buf = base64_decode(str, strlen(str), &bufl);
@@ -124,8 +130,8 @@ static int load_keys(uint8_t* pk, size_t pkl, uint8_t* sk, size_t skl) {
     status = generate_keys(pk, pkl, sk, skl);
     if (status != 0) return status;
   }
-  fclose(pkf);
-  fclose(skf);
+  if (pkf != NULL) fclose(pkf);
+  if (skf != NULL) fclose(skf);
 
   // Load keys
   status += load_key("public.pem", pk, pkl);
@@ -153,8 +159,7 @@ int socket_server() {
   if (sockfd == -1) {
     printf("Socket creation failed...\n");
     exit(0);
-  } else
-    printf("Socket successfully created..\n");
+  }
   memset(&servaddr, 0, sizeof(servaddr));
 
   // Params
@@ -169,15 +174,13 @@ int socket_server() {
   if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
     printf("socket bind failed...\n");
     exit(0);
-  } else
-    printf("Socket successfully bound..\n");
-
+  }
   // Listen for incoming clients
   if ((listen(sockfd, 5)) != 0) {
     printf("Listen failed...\n");
     exit(0);
   } else
-    printf("Server listening..\n");
+    printf("Server listening at port %d ...\n", PORT);
   len = sizeof(cli);
 
   // Run continuosly
