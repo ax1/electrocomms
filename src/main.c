@@ -1,5 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "client.h"
-#include "electrocomms.h"
 #include "server.h"
 
 const char help[] =
@@ -25,11 +28,3 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 
-void log8(char *text, uint8_t *data, size_t len) {
-  // size_t LIMIT = len;
-  size_t LIMIT = len < 32 ? len : 32;
-  printf("%s", text);
-  for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
-  if (len > LIMIT) printf("...%zu bytes", len);
-  printf("\n");
-}
