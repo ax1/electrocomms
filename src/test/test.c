@@ -1,6 +1,5 @@
 
-#include "electrocomms.h"
-#include "kyber1024/api.h"
+#include "../crypto.h"
 
 void log8(char *text, uint8_t *data, size_t len) {
   // size_t LIMIT = len;

@@ -65,7 +65,7 @@ int main() {
     printf("socket bind failed...\n");
     exit(0);
   } else
-    printf("Socket successfully binded..\n");
+    printf("Socket successfully bound..\n");
 
   // Listen for incoming clients
   if ((listen(sockfd, 5)) != 0) {
