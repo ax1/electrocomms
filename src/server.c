@@ -48,7 +48,7 @@ static void* handler_server(void* args) {
   uint8_t* ct = buff;
   uint8_t ss[KEM_SSL];
   status = KEM_DECAPSULATE(sk, ct, ss);
-  log8("Server key is: ", ss, KEM_SSL);
+  log8("Shared key is: ", ss, KEM_SSL);
 
   // Send result to client
   char* response = NULL;

@@ -29,7 +29,6 @@ static int handler_client(int sockfd) {
   uint8_t ct[KEM_CTL];
   uint8_t ss[KEM_SSL];
   status = KEM_ENCAPSULATE(pk, ss, ct);
-  log8("Client key is:", ss, KEM_SSL);
 
   // ---Send the ciphertext to server---
   size_t len = write(sockfd, ct, KEM_CTL);
@@ -44,7 +43,12 @@ static int handler_client(int sockfd) {
     perror("Server was closed\n");
     return 500;
   }
-  printf("Server response: %s\n", response);
+  char* OK = "ok";
+  if (strcmp((char*)response, OK) == 0) {
+    log8("", ss, KEM_SSL);
+  } else {
+    perror("Error from server. Key not accepted");
+  }
   return 0;
 }
 
@@ -89,10 +93,9 @@ int socket_client(const char* HOST, int PORT) {
   struct sockaddr_in servaddr;
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
-    printf("socket creation failed...\n");
+    perror("socket creation failed...\n");
     exit(0);
-  } else
-    printf("Socket successfully created..\n");
+  }
   memset(&servaddr, 0, sizeof(servaddr));
 
   // Connect
@@ -102,9 +105,7 @@ int socket_client(const char* HOST, int PORT) {
   if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
     printf("connection with the server failed...\n");
     exit(0);
-  } else
-    printf("connected to the server..\n");
-
+  }
   int status = handler_client(sockfd);
 
   close(sockfd);
