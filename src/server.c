@@ -11,36 +11,59 @@
 #include "crypto.h"
 #include "util.h"
 
-#define MAX 80
 #define PORT 8080
 #define SA struct sockaddr
 
+static uint8_t pk[KEM_PKL];
+static uint8_t sk[KEM_SKL];
+
+static int acceptClient() {
+  // TODO, for now, aceptation because the client has the pk, and the pk is
+  // never distributed next steps can be:
+  //  - either accept authentication from the non-PQ servers (the IAM)
+  //  - or use a Diffie-Hellman like by using keys ofor client and server
+  //  - or also use a trusted signed key (or cert with a PQ-fork of SSL)
+  return 0;
+}
+
 static void* handler_server(void* args) {
-  int connfd = *(int*)args;
-  char buff[MAX];
-  char* response = "ACK\n";
-  for (;;) {
-    // Read
-    memset(buff, 0, MAX);
-    size_t len = read(connfd, buff, sizeof(buff));
-    printf("%s (read bytes %li)\n", buff, len);
-
-    // If client disconnects, read() is invoked with 0 len (or -1)
-    if (len <= 0) {
-      printf("Client was closed\n");
-      close(connfd);
-      break;
-    }
-
-    // Write
-    len = write(connfd, response, strlen(response) + 1);
-    if (len <= 0) {
-      printf("Client is not available\n");
-      break;
-    }
-    printf("(write bytes %li)\n", len);
+  int status = 0;
+  if (acceptClient() != 0) {
+    perror("Client is not authorized");
+    return (void*)401;
   }
-  return NULL;
+  int MAX = 10000;
+  int connfd = *(int*)args;
+  uint8_t buff[MAX];
+  memset(buff, 0, MAX);
+  char* OK = "ok";
+  char* ERROR = "error";
+
+  // Read cipthertext
+  size_t len = read(connfd, buff, sizeof(buff));
+  if (len <= 0) {
+    printf("Client was closed\n");
+    close(connfd);
+    return (void*)410;
+  }
+  uint8_t* ct = buff;
+  uint8_t ss[KEM_SSL];
+  status = KEM_DECAPSULATE(sk, ct, ss);
+  log8("Server key is: ", ss, KEM_SSL);
+
+  // Send result to client
+  char* response = NULL;
+  if (status == 0) {
+    response = OK;
+  } else {
+    perror("Error when decapsulating the shared key");
+    response = ERROR;
+  }
+  len = write(connfd, response, strlen(response) + 1);
+  if (len <= 0) perror("Client is not available\n");
+  close(connfd);
+
+  return (void*)0;
 }
 
 static int generate_keys(uint8_t* pk, size_t pkl, uint8_t* sk, size_t skl) {
@@ -142,10 +165,6 @@ static int load_keys(uint8_t* pk, size_t pkl, uint8_t* sk, size_t skl) {
 int socket_server() {
   // Load KEM keys
   int status = 0;
-  uint8_t pk[KEM_PKL];
-  uint8_t sk[KEM_SKL];
-  // uint8_t ct[KEM_CTL];
-  // uint8_t ss[KEM_SSL];
   status = load_keys(pk, KEM_PKL, sk, KEM_SKL);
   if (status != 0) return status;
 
@@ -190,7 +209,7 @@ int socket_server() {
       printf("server accept failed...\n");
       exit(0);
     } else
-      printf("server accept the client...\n");
+      printf("server accept the socket client...\n");
     pthread_t thread;
     int id = connfd;
     pthread_create(&thread, NULL, handler_server, (void*)&id);
