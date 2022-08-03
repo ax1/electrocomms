@@ -6,7 +6,7 @@ This is part of the *STRONGBOX* component, into the WP4, in the [ELECTRON (UE fu
 
 ## Usage
 
-Developers: Download source code and build first libraries, and then project, using `make` on each folders.
+Developers: Download source code, then execute `make` in the src folder.
 Users: use a pre-compiled binary from /dist folder.
 
 > Note: At this stage of the project, the public key must be kept secret for everybody but the allowed clients. See reasoning and alternatives [here](/src/kyber1024/LICENSE). 
