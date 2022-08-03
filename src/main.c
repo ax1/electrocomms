@@ -7,26 +7,22 @@
 
 const char help[] =
     "Exchange quantum-resistant safe data.\n\n\
-Parameters: [server | client]\n\
-- server: start listening socket. Format: server [PORT (default 8080)]\n\
-- client: start and connect to server. Format client [[HOST (default 127.0.0.1) [PORT (default 8080)]]\n";
+Parameters: [host] [|] [port]\n\
+- server: start as listener. Example: ./electrocomms 8080\n\
+- client: start and connect to server. Example: ./electrocomms 127.0.0.1 8080\n";
 
 int main(int argc, char const *argv[]) {
   if (argc == 1) {
     printf(help);
   } else {
-    const char *mode = argv[1];
-    char *HOST = "127.0.0.1";
-    int PORT = 8080;
-    if (strcmp(mode, "client") == 0) {
-      if (argc > 2) HOST = (char *)argv[2];
-      if (argc > 3) PORT = atoi(argv[3]);
-      socket_client(HOST, PORT);
-    } else if (strcmp(mode, "server") == 0) {
-      if (argc > 2) PORT = atoi(argv[2]);
-      socket_server(PORT);
+    if (argc == 2) {
+      const int port = atoi(argv[1]);
+      socket_server(port);
+    } else if (argc == 3) {
+      const char *host = argv[1];
+      const int port = atoi(argv[2]);
+      socket_client(host, port);
     } else {
-      // printf("Invalid parameters\n\n");
       printf(help);
     }
   }

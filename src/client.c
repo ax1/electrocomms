@@ -13,7 +13,6 @@
 #include "util.h"
 
 #define MAX 80
-#define PORT 8080
 #define SA struct sockaddr
 
 static int load_key(const char* path, uint8_t* key, size_t keyl);
@@ -85,7 +84,7 @@ static int load_key(const char* path, uint8_t* key, size_t keyl) {
   return 0;
 }
 
-int socket_client() {
+int socket_client(const char* HOST, int PORT) {
   int sockfd;
   struct sockaddr_in servaddr;
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -98,7 +97,7 @@ int socket_client() {
 
   // Connect
   servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+  servaddr.sin_addr.s_addr = inet_addr(HOST);
   servaddr.sin_port = htons(PORT);
   if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
     printf("connection with the server failed...\n");

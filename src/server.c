@@ -11,7 +11,6 @@
 #include "crypto.h"
 #include "util.h"
 
-#define PORT 8080
 #define SA struct sockaddr
 
 static uint8_t pk[KEM_PKL];
@@ -162,7 +161,7 @@ static int load_keys(uint8_t* pk, size_t pkl, uint8_t* sk, size_t skl) {
   return status;
 }
 
-int socket_server() {
+int socket_server(int PORT) {
   // Load KEM keys
   int status = 0;
   status = load_keys(pk, KEM_PKL, sk, KEM_SKL);
