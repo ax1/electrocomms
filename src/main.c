@@ -21,8 +21,8 @@ int main(int argc, char const *argv[]) {
     else if (strcmp(mode, "server") == 0)
       socket_server();
     else {
-      printf("Invalid parameters");
-      exit(1);
+      // printf("Invalid parameters\n\n");
+      printf(help);
     }
   }
   return 0;
