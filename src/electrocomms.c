@@ -6,8 +6,11 @@
 #include "server.h"
 
 const char help[] =
-    "Exchange quantum-resistant safe data.\n\n\
-Parameters: [host] [|] [port]\n\
+    "Exchange quantum-resistant safe data.\n \
+A shared secret key is exchanged between two parties, \
+using a post-quantum algorithm (Crystals-Kyber1024).\n\n\
+\
+Parameters: [host] [|] [port] (note: similar to 'nc' command)\n\
 - server: start as listener. Example: ./electrocomms 8080\n\
 - client: start and connect to server. Example: ./electrocomms 127.0.0.1 8080\n";
 

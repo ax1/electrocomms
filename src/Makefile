@@ -4,7 +4,7 @@
 #   2. Then, execute this Makefile.
 # ----------------------------------------------------------------------
 
-NAME=main
+NAME=electrocomms
 RELEASE=-O3
 DEBUG=-g3
 INCLUDES=-I. -I$(KEM)
@@ -27,3 +27,4 @@ test:
 clean:
 	$(RM) ./kyber1024/*.o
 	$(RM) ./kyber1024/*.a
+	$(RM) ./bin/*
