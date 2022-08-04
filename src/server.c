@@ -41,7 +41,7 @@ static void* handler_server(void* args) {
   // Read cipthertext
   size_t len = read(connfd, buff, sizeof(buff));
   if (len <= 0) {
-    printf("Client was closed\n");
+    perror("Client was closed\n");
     close(connfd);
     return (void*)410;
   }
@@ -72,14 +72,14 @@ static int generate_keys(uint8_t* pk, size_t pkl, uint8_t* sk, size_t skl) {
   FILE* pkf = fopen("public.pem", "r");
   FILE* skf = fopen("private.pem", "r");
   if (pkf != NULL || skf != NULL) {
-    printf(
+    perror(
         "key files already exist."
         "You must remove or backup them before generating new key files\n");
     return 409;
   }
   status = KEM_GENKEYS(pk, sk);
   if (status != 0) {
-    printf("Error when generating the keys\n");
+    perror("Error when generating the keys\n");
     return 500;
   }
   size_t len = 0;
@@ -113,7 +113,7 @@ static int load_key(const char* path, uint8_t* key, size_t keyl) {
   FILE* file;
   file = fopen(path, "r");
   if (file == NULL) {
-    fprintf(stderr, "File containing the key was not found\n");
+    perror("File containing the key was not found\n");
     return 404;
   }
   char c;
@@ -135,7 +135,7 @@ static int load_key(const char* path, uint8_t* key, size_t keyl) {
   size_t bufl = 0;
   uint8_t* buf = base64_decode(str, strlen(str), &bufl);
   if (bufl > keyl) {
-    printf("Error: The real key length does not match the expected key length");
+    perror("The real key length does not match the expected key length");
     return 500;
   }
   memcpy(key, buf, bufl);
@@ -175,7 +175,7 @@ int socket_server(int PORT) {
 
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
-    printf("Socket creation failed...\n");
+    perror("Socket creation failed\n");
     exit(0);
   }
   memset(&servaddr, 0, sizeof(servaddr));
@@ -190,12 +190,12 @@ int socket_server(int PORT) {
 
   // Bind socket
   if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-    printf("socket bind failed...\n");
+    perror("Socket bind failed (another server in same port?).\n");
     exit(0);
   }
   // Listen for incoming clients
   if ((listen(sockfd, 5)) != 0) {
-    printf("Listen failed...\n");
+    perror("Listen failed\n");
     exit(0);
   }  // else    printf("Server listening at port %d ...\n", PORT);
   len = sizeof(cli);
@@ -204,7 +204,7 @@ int socket_server(int PORT) {
   while (1 == 1) {
     connfd = accept(sockfd, (SA*)&cli, &len);
     if (connfd < 0) {
-      printf("server accept failed...\n");
+      perror("Server accept failed\n");
       exit(0);
     }  // else  printf("server accepts the socket client...\n");
     pthread_t thread;
