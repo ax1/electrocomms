@@ -23,7 +23,7 @@ static int handler_client(int sockfd) {
   uint8_t pk[KEM_PKL];
   status = load_key("public.pem", pk, KEM_PKL);
   if (status != 0) {
-    perror("Unable to load the public key.\n");
+    fprintf(stderr, "Unable to load the public key.\n");
     return 400;
   }
   uint8_t ct[KEM_CTL];
@@ -33,21 +33,21 @@ static int handler_client(int sockfd) {
   // ---Send the ciphertext to server---
   size_t len = write(sockfd, ct, KEM_CTL);
   if (len <= 0) {
-    perror("Server is not available.\n");
+    fprintf(stderr, "Server is not available.\n");
     return 500;
   }
   // ---Server to accept or reject the shared secret---
   uint8_t response[100];
   len = read(sockfd, response, 100);
   if (len <= 0) {
-    perror("Server was closed\n");
+    fprintf(stderr, "Server was closed\n");
     return 500;
   }
   char* OK = "ok";
   if (strcmp((char*)response, OK) == 0) {
     log8("", ss, KEM_SSL);
   } else {
-    perror("Error from server. Key not accepted");
+    fprintf(stderr, "Error from server. Key not accepted");
   }
   return 0;
 }
@@ -93,7 +93,7 @@ int socket_client(const char* HOST, int PORT) {
   struct sockaddr_in servaddr;
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
-    perror("socket creation failed...\n");
+    fprintf(stderr, "socket creation failed...\n");
     exit(0);
   }
   memset(&servaddr, 0, sizeof(servaddr));
