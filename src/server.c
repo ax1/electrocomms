@@ -48,7 +48,7 @@ static void* handler_server(void* args) {
   uint8_t* ct = buff;
   uint8_t ss[KEM_SSL];
   status = KEM_DECAPSULATE(sk, ct, ss);
-  log8("Shared key is: ", ss, KEM_SSL);
+  log8("", ss, KEM_SSL);
 
   // Send result to client
   char* response = NULL;
@@ -197,8 +197,7 @@ int socket_server(int PORT) {
   if ((listen(sockfd, 5)) != 0) {
     printf("Listen failed...\n");
     exit(0);
-  } else
-    printf("Server listening at port %d ...\n", PORT);
+  }  // else    printf("Server listening at port %d ...\n", PORT);
   len = sizeof(cli);
 
   // Run continuosly
@@ -207,8 +206,7 @@ int socket_server(int PORT) {
     if (connfd < 0) {
       printf("server accept failed...\n");
       exit(0);
-    } else
-      printf("server accept the socket client...\n");
+    }  // else  printf("server accepts the socket client...\n");
     pthread_t thread;
     int id = connfd;
     pthread_create(&thread, NULL, handler_server, (void*)&id);
