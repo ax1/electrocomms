@@ -28,7 +28,7 @@ static int acceptClient() {
 static void* handler_server(void* args) {
   int status = 0;
   if (acceptClient() != 0) {
-    fprintf(stderr, "Client is not authorized");
+    fprintf(stderr, "Client is not authorized\n");
     return (void*)401;
   }
   size_t MAX = KEM_CTL;
@@ -53,20 +53,22 @@ static void* handler_server(void* args) {
   uint8_t* ct = buff;
   uint8_t ss[KEM_SSL];
   status = KEM_DECAPSULATE(sk, ct, ss);
-  log8("", ss, KEM_SSL);
 
   // Send result to client
   char* response = NULL;
   if (status == 0) {
     response = OK;
   } else {
-    fprintf(stderr, "Error when decapsulating the shared key");
+    fprintf(stderr, "Error when decapsulating the shared key\n");
     response = ERROR;
   }
   len = write(connfd, response, strlen(response) + 1);
   if (len <= 0) fprintf(stderr, "Client is not available\n");
   close(connfd);
 
+  // Exchange completed, print key and return
+  log8("", ss, KEM_SSL);
+  fflush(stdout);
   return (void*)0;
 }
 
