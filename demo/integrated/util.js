@@ -1,11 +1,11 @@
 import * as crypto from 'crypto'
 import { Buffer } from 'buffer'
 
-export function encrypt(key, id, dec) {
+export function encrypt(key, id, msg) {
   const nonce = crypto.randomBytes(12)
   const cipher = crypto.createCipheriv('chacha20-poly1305', key, nonce, { authTagLength: id.length })
   cipher.setAAD(id)
-  const enc = cipher.update(dec)
+  const enc = cipher.update(msg)
   cipher.final()
   const tag = cipher.getAuthTag()
   return { nonce, enc, tag }
@@ -14,10 +14,10 @@ export function encrypt(key, id, dec) {
 export function decrypt(key, id, nonce, enc, tag) {
   const decipher = crypto.createDecipheriv("chacha20-poly1305", key, nonce, { authTagLength: id.length })
   decipher.setAAD(id)
-  const dec = decipher.update(enc)
+  const msg = decipher.update(enc)
   decipher.setAuthTag(tag)
   decipher.final()
-  return dec
+  return msg
 }
 
 function test() {
@@ -31,4 +31,4 @@ function test() {
   console.log(res.toString('utf-8'))
 }
 
-test()
+//test()
