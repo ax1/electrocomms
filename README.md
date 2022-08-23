@@ -4,6 +4,55 @@ Provide Quantum resistant communications without changing existing stacks.
 
 This is part of the *STRONGBOX* component, into the WP4, in the [ELECTRON (UE funding) project](https://electron-project.eu/). 
 
+Selected algorithms:
+- for the Post-Quantum asymmetric key exchange mechanism: Crystals-Kyber 1024
+- for the symmetric encryption with authentication enabled: ChaCha20-Poly1305
+
+## Demos
+
+> See the [demo](/demo) folder containing code and documentation. 
+
+### Simple demo
+
+As command line applications. The applications just exchange a shared key.
+
+```mermaid.
+sequenceDiagram
+    Note left of PQ client: Public key
+    Note right of PQ server: Private key
+    PQ client->>PQ server: Connect 8080
+    PQ client-->>PQ server: [OPTIONAL] Send temporary verification
+    Note left of PQ client: Shared key
+    PQ client->>PQ client: Use public key
+    PQ client->>PQ server: Send encapsulated key
+    PQ server->>PQ server: Use private key
+    PQ server->>PQ client: OK
+    Note right of PQ server: Shared key
+```
+
+### Integrated demo
+
+Two systems exchanging data at port 8081. When a quantum-safe key is required, the systems call PQClient and PQServer to exchange a safe key over the port 8080. Then, these systems can encrypt and transmit data by using that shared key. Note also that Client and PQ client intaraction(same with server) is always done locally.
+
+```mermaid.
+sequenceDiagram
+    Participant Client A
+    Participant PQ client
+    Participant PQ server
+    Participant Server B
+    Client A-> Server B: Normal connection (port 443 or 8081)
+    Client A->>PQ client: Request shared key
+    PQ client->PQ server: Exchange shared key (port 8080)
+    Note over PQ client, PQ server: Shared key is NEVER transmitted. Only the quantum-safe encapsulation.
+    PQ client->>Client A: Return shared key
+    PQ server->>Server B: Return shared key
+    loop
+    Client A->>Client A: Encrypt data with shared key
+    Client A->> Server B: Encryted data
+    Server B->>Server B: Decrypt data with shared key
+    end
+```
+
 ## Usage
 
 Developers: Download source code, then execute `make` in the src folder.
