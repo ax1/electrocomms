@@ -16,10 +16,10 @@ Selected algorithms:
 
 As command line applications. The applications just exchange a shared key.
 
-```mermaid.
+```mermaid
 sequenceDiagram
-    Note left of PQ client: Public key
-    Note right of PQ server: Private key
+    Note left of PQ client: Public PQ key
+    Note right of PQ server: Private PQ key
     PQ client->>PQ server: Connect 8080
     PQ client-->>PQ server: [OPTIONAL] Send temporary verification
     Note left of PQ client: Shared key
@@ -34,7 +34,7 @@ sequenceDiagram
 
 Two systems exchanging data at port 8081. When a quantum-safe key is required, the systems call PQClient and PQServer to exchange a safe key over the port 8080. Then, these systems can encrypt and transmit data by using that shared key. Note also that Client and PQ client intaraction(same with server) is always done locally.
 
-```mermaid.
+```mermaid
 sequenceDiagram
     Participant Client A
     Participant PQ client
