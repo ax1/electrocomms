@@ -198,7 +198,7 @@ int socket_server(int PORT) {
 
   // Bind socket
   if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-    fprintf(stderr, "Socket bind failed (another server in same port?).\n");
+    fprintf(stderr, "Socket bind failed (another server in port %d?).\n", PORT);
     exit(0);
   }
   // Listen for incoming clients
