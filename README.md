@@ -2,7 +2,7 @@
 
 Provide Quantum resistant communications without changing existing stacks.
 
-This is part of the *STRONGBOX* component, into the WP4, in the [ELECTRON (UE funding) project](https://electron-project.eu/). 
+This is part of the *STRONGBOX* component, into the WP4, in the [ELECTRON european project](https://electron-project.eu/). 
 
 ![](electrocomms.gif)
 
@@ -36,7 +36,7 @@ sequenceDiagram
 
 ### Integrated demo
 
-Two systems exchanging data at port 8081. When a quantum-safe key is required, the systems call PQClient and PQServer to exchange a safe key over the port 8080. Then, these systems can encrypt and transmit data by using that shared key. Note also that Client and PQ client intaraction(same with server) is always done locally.
+Two systems exchanging data at port 8081. When a quantum-safe key is required, the systems call PQClient and PQServer to exchange a safe key over the port 8080. Then, these systems can encrypt and transmit data by using that shared key. Note also that Client and PQ client interaction (same with server) is always done locally.
 
 ```mermaid
 sequenceDiagram
@@ -90,11 +90,11 @@ For the Electron project, since many elements are not still defined, we will opt
 
 For the asymmetric part (the key exchange mechanism or KEM), CRYSTALS-KYBER will be selected. Reasons:
 - Selected for standardization in the third round of NIST.
-- Lattice family performs really well in most architectures
+- Lattice family performs really well in most architectures.
 
 For the symmetric part [ONLY in the integrated demo by using Node] (the encryption of data to be transmitted securely) ChaCha20-Poly1305 is selected. Reasons:
 - Does not require hardware acceleration to be fast.
-- Since most of traditional HTTPs servers use AES-GCM, using a different algorithm for the app encryption increase the security.
+- Since most of traditional HTTPs servers use AES-GCM, using a different algorithm for the app-level encryption increases the security.
 
 
 ## Licenses
@@ -104,7 +104,7 @@ All licenses are permisive open source, see LICENSE file on each subfolder:
 - Kyber implementation: [Creative Commons Zero CC0](/src/kyber1024/LICENSE)
 
 
-## Disclaimer
+## Parent project
 
 **[ELECTRON "rEsilient and seLf-healed EleCTRical pOwer Nanogrid"](https://electron-project.eu/)**
 
