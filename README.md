@@ -4,6 +4,8 @@ Provide Quantum resistant communications without changing existing stacks.
 
 This is part of the *STRONGBOX* component, into the WP4, in the [ELECTRON (UE funding) project](https://electron-project.eu/). 
 
+![](electrocomms.gif)
+
 Selected algorithms:
 - for the Post-Quantum asymmetric key exchange mechanism: Crystals-Kyber 1024
 - for the symmetric encryption with authentication enabled: ChaCha20-Poly1305
@@ -12,9 +14,11 @@ Selected algorithms:
 
 > See the [demo](/demo) folder containing code and documentation. 
 
+> A [Docker](/DOCKER) container is also available for quick tests.
+
 ### Simple demo
 
-As command line applications. The applications just exchange a shared key.
+Starting as command line applications. The applications just exchange a shared key.
 
 ```mermaid
 sequenceDiagram
@@ -58,7 +62,7 @@ sequenceDiagram
 Developers: Download source code, then execute `make` in the src folder.
 Users: use a pre-compiled binary from /dist folder.
 
-> Note: At this stage of the project, the public key must be kept secret for everybody but the allowed clients. See reasoning and alternatives [here](/src/kyber1024/LICENSE). 
+> Note: At this stage of the project, the public key is delivered only to allowed clients. See reasoning and alternatives [here](/README_DEVELOPMENT.md). 
 
 To display help: `./electrocomms`
 
@@ -84,11 +88,14 @@ For the Electron project, since many elements are not still defined, we will opt
 
 ## Selection of the algorithms
 
-For the asymmetric part (the key exchange mechanism or KEM), KYBER will be selected. Reasons:
+For the asymmetric part (the key exchange mechanism or KEM), CRYSTALS-KYBER will be selected. Reasons:
 - Selected for standardization in the third round of NIST.
 - Lattice family performs really well in most architectures
 
-For the symmetric part (the encryption of data to be transmitted securely) [STILL TO BE SELECTED]
+For the symmetric part [ONLY in the integrated demo by using Node] (the encryption of data to be transmitted securely) ChaCha20-Poly1305 is selected. Reasons:
+- Does not require hardware acceleration to be fast.
+- Since most of traditional HTTPs servers use AES-GCM, using a different algorithm for the app encryption increase the security.
+
 
 ## Licenses
 
