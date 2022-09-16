@@ -47,7 +47,7 @@ sequenceDiagram
     Client A-> Server B: Normal connection (port 443 or 8081)
     Client A->>PQ client: Request shared key
     PQ client->PQ server: Exchange shared key (port 8080)
-    Note over PQ client, PQ server: Shared key is NEVER transmitted. Only the quantum-safe encapsulation.
+    Note over PQ client, PQ server: The quantum-safe encapsulation is transmitted, not the raw shared key.
     PQ client->>Client A: Return shared key
     PQ server->>Server B: Return shared key
     loop
