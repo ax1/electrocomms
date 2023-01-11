@@ -80,11 +80,11 @@ There are many approaches to Post-Quantum (PQ) communications. Each one of them 
 |Nginx fork with PQ|Server ready to use|Client must be also a PQ (new client or change the client stack)|
 |Pre shared Key (PSK) into TLS|Use only the external PQ for shared key. TLS1.3 already allow this|Existing programs may not have PSK as public method in code, so external implementation is still required|
 |Using Qdefender lib|Faster to develop|Qdefender license is Tecnalia proprietary for now|
-|Plain C implementation|Better suited for servers and embedded, open source is possible|Only for simple scenarios, ad-hoc code|
+|Plain C implementation|Better suited for servers and embedded, open-source is possible|Only for simple scenarios, ad-hoc code|
 
 For the Electron project, since many elements are not still defined, we will opt for the plain C implementation focused on server to server communication. Reasons:
 - if the C program is kept simple, it could be also used for low resources systems, with some effort. Other options will never be capable in embedded due to RAM, cycles or size of binary, compilation issues etc.
--  external dependencies (algorithms) can be  linked as open source. The project license can be set to Free and Open Source Project (FOSS). This is a positive point for the European commission funding the Electron project.
+-  external dependencies (algorithms) can be  linked as open-source. The project license can be set to Free and Open-Source Project (FOSS). This is a positive point for the European commission funding the Electron project.
 
 ## Selection of the algorithms
 
@@ -99,7 +99,7 @@ For the symmetric part [ONLY in the integrated demo by using Node] (the encrypti
 
 ## Licenses
 
-All licenses are permissive open source, see LICENSE file on each subfolder:
+All licenses are permissive open-source, see LICENSE file on each subfolder:
 - current project: [MIT](/LICENSE)
 - Kyber implementation: [Creative Commons Zero CC0](/src/kyber1024/LICENSE)
 
