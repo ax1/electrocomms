@@ -66,7 +66,7 @@ Users: use a pre-compiled binary from /dist folder.
 
 To display help: `./electrocomms`
 
-To start the server: `./electrocomms 8080` (In the first run, an new pair of keys is generated automatically)
+To start the server: `./electrocomms 8080` (In the first run, a new pair of keys is generated automatically)
 
 To start the client: `./electrocomms 127.0.0.1 8080`
 
